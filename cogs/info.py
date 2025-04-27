@@ -8,18 +8,24 @@ class Info(commands.Cog):
     @discord.app_commands.command(name="info", description="Show aesthetic information about the bot.")
     async def info(self, interaction: discord.Interaction):
         bot_user = self.bot.user
-        owner = await self.bot.fetch_user(11949832170868572928)  # Ganti ini ke ID kamu
+
+        try:
+            owner = await self.bot.fetch_user(11949832170868572928)  # Ganti ke ID kamu yang bener
+        except Exception as e:
+            await interaction.response.send_message("❌ Gagal mengambil informasi owner.", ephemeral=True)
+            return
 
         embed = discord.Embed(
             title=f"✨ Welcome to {bot_user.name}! ✨",
             description=(
-                "```A multifunctional Discord bot built for an amazing experience!```\n"
+                "```"
+                "A multifunctional Discord bot built for an amazing experience!"
+                "```\n"
                 "*Helping you manage your server easily and stylishly.*"
             ),
-            color=discord.Color.from_rgb(64, 224, 208)  # Warna turqoise cantik
+            color=discord.Color.from_rgb(64, 224, 208)
         )
 
-        # Thumbnail dan Gambar besar
         if bot_user.avatar:
             embed.set_thumbnail(url=bot_user.avatar.url)
             embed.set_image(url=bot_user.avatar.url)

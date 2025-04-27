@@ -25,8 +25,15 @@ class Say(commands.Cog):
             await interaction.response.send_message("You don't have permission to use this command.", ephemeral=True)
             return
 
+        await interaction.response.defer(thinking=True, ephemeral=True)
         await target_channel.send(message)
-        await interaction.response.send_message(f"Message sent to {target_channel.mention}!", ephemeral=True)
+
+        embed = discord.Embed(
+            title="✅ Message Sent",
+            description=f"Sent to {target_channel.mention}",
+            color=discord.Color.green()
+        )
+        await interaction.followup.send(embed=embed, ephemeral=True)
 
     @discord.app_commands.command(name="say_embed", description="Send an embed to a channel.")
     @discord.app_commands.describe(
@@ -53,8 +60,15 @@ class Say(commands.Cog):
             else:
                 embed.set_image(url=image_url)
 
+        await interaction.response.defer(thinking=True, ephemeral=True)
         await target_channel.send(embed=embed)
-        await interaction.response.send_message(f"Embed sent to {target_channel.mention}!", ephemeral=True)
+
+        confirm_embed = discord.Embed(
+            title="✅ Embed Sent",
+            description=f"Embed sent to {target_channel.mention}",
+            color=discord.Color.green()
+        )
+        await interaction.followup.send(embed=confirm_embed, ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(Say(bot))
